@@ -1,4 +1,4 @@
-pub fn run(dir: &str, function: fn(&str) -> i32, expected_result: i32) {
+pub fn run(dir: &str, function: fn(&str) -> i32, expected_result: i32) -> i32 {
     println!("Running {}", dir);
 
     let test_result = function(&(dir.to_owned() + "/" + "input-test"));
@@ -11,4 +11,6 @@ pub fn run(dir: &str, function: fn(&str) -> i32, expected_result: i32) {
 
     println!("Result: {result}");
     println!();
+
+    result
 }
