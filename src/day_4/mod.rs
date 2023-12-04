@@ -15,8 +15,8 @@ struct Card {
     actual_numbers: Vec<i32>,
 }
 
-fn run_pt1(filename: &str) -> i32 {
-    let lines = file_loader::get_lines(filename);
+fn run_pt1(file_name: &str) -> i32 {
+    let lines = file_loader::get_lines(file_name);
     let mut result = 0;
 
     let cards = build_cards(lines);
@@ -28,8 +28,8 @@ fn run_pt1(filename: &str) -> i32 {
     return result;
 }
 
-fn run_pt2(filename: &str) -> i32 {
-    let lines = file_loader::get_lines(filename);
+fn run_pt2(file_name: &str) -> i32 {
+    let lines = file_loader::get_lines(file_name);
 
     let mut cards = build_cards(lines);
 
