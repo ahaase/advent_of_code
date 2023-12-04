@@ -8,9 +8,7 @@ pub fn get_lines(file_name: &str) -> Vec<String> {
         .expect("Failed to convert path to string")
         .to_owned();
 
-    let file_path = current_dir + "/" + file_name;
-
-    println!("loading path {}", file_path);
+    let file_path =  current_dir + "/src/" + file_name;
 
     let contents = fs::read_to_string(file_path)
         .expect("Failed to load file");
