@@ -3,19 +3,29 @@ pub mod file_loader;
 use regex::Regex;
 
 struct Card {
+    count: u32,
     winning_numbers: Vec<u32>,
     actual_numbers: Vec<u32>,
 }
 
 fn main() {
-    assert!(run("input-test") == 13);
+    run(run_pt1, 13);
+    run(run_pt2, 30);
+}
 
-    let result = run("input");
+fn run(function: fn(&str) -> u32, expected_result: u32) {
+    let test_result = function("input-test");
+
+    println!("Test result: {test_result}");
+
+    assert!(test_result == expected_result);
+
+    let result = function("input");
 
     println!("Result: {result}");
 }
 
-fn run(filename: &str) -> u32 {
+fn run_pt1(filename: &str) -> u32 {
     let lines = file_loader::get_lines(filename);
     let mut result = 0;
 
@@ -26,6 +36,38 @@ fn run(filename: &str) -> u32 {
     }
 
     return result;
+}
+
+fn run_pt2(filename: &str) -> u32 {
+    let lines = file_loader::get_lines(filename);
+
+    let mut cards = build_cards(lines);
+
+    for i in 0..cards.len() - 1 {
+        let card = cards.get(i).unwrap();
+
+        let card_count = card.count;
+        let winning_numbers = count_winning_numbers(card);
+
+        let end_index = if i + winning_numbers as usize > cards.len() {
+            cards.len()
+        } else {
+            i + winning_numbers as usize
+        };
+
+        for j in i + 1..end_index + 1 {
+            *&mut cards[j].count += card_count;
+        }
+
+    }
+
+    let mut result = 0;
+
+    for card in cards {
+        result += card.count;
+    }
+
+    result
 }
 
 fn build_cards(lines: Vec<String>) -> Vec<Card> {
@@ -42,6 +84,7 @@ fn build_cards(lines: Vec<String>) -> Vec<Card> {
         let second_part = parts.next().unwrap();
 
         cards.push(Card {
+            count: 1,
             winning_numbers: get_numbers(first_part),
             actual_numbers: get_numbers(second_part),
         });
@@ -64,6 +107,18 @@ fn calculate_card(card: Card) -> u32 {
         }
 
         result *= 2;
+    }
+
+    result
+}
+
+fn count_winning_numbers(card: &Card) -> u32 {
+    let mut result = 0;
+
+    for number in card.actual_numbers.as_slice() {
+        if card.winning_numbers.contains(&number) {
+            result += 1;
+        }
     }
 
     result
