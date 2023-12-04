@@ -3,24 +3,19 @@ use crate::file_loader;
 use crate::runner;
 
 pub fn run() {
-    println!("\nRunning day 4\n");
-
-    println!("\nPart 1:\n");
     runner::run("day_4", run_pt1, 13);
-
-    println!("\nPart 2:\n");
     runner::run("day_4", run_pt2, 30);
 
     println!("\nDay 4 done\n");
 }
 
 struct Card {
-    count: u32,
-    winning_numbers: Vec<u32>,
-    actual_numbers: Vec<u32>,
+    count: i32,
+    winning_numbers: Vec<i32>,
+    actual_numbers: Vec<i32>,
 }
 
-fn run_pt1(filename: &str) -> u32 {
+fn run_pt1(filename: &str) -> i32 {
     let lines = file_loader::get_lines(filename);
     let mut result = 0;
 
@@ -33,7 +28,7 @@ fn run_pt1(filename: &str) -> u32 {
     return result;
 }
 
-fn run_pt2(filename: &str) -> u32 {
+fn run_pt2(filename: &str) -> i32 {
     let lines = file_loader::get_lines(filename);
 
     let mut cards = build_cards(lines);
@@ -88,7 +83,7 @@ fn build_cards(lines: Vec<String>) -> Vec<Card> {
     cards
 }
 
-fn calculate_card(card: Card) -> u32 {
+fn calculate_card(card: Card) -> i32 {
     let mut result = 0;
 
     for number in card.actual_numbers {
@@ -107,7 +102,7 @@ fn calculate_card(card: Card) -> u32 {
     result
 }
 
-fn count_winning_numbers(card: &Card) -> u32 {
+fn count_winning_numbers(card: &Card) -> i32 {
     let mut result = 0;
 
     for number in card.actual_numbers.as_slice() {
@@ -119,7 +114,7 @@ fn count_winning_numbers(card: &Card) -> u32 {
     result
 }
 
-fn get_numbers(line: &str) -> Vec<u32> {
+fn get_numbers(line: &str) -> Vec<i32> {
     let re = Regex::new(r"(?<num>[\d]+)").unwrap();
 
     match re.captures_iter(line)
